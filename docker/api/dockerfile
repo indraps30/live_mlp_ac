@@ -1,0 +1,29 @@
+# Lite-Version Python
+FROM python:3.12-slim
+
+# Set working directory.
+WORKDIR /home
+
+COPY ./requirements.txt ./
+COPY ./src ./src/
+COPY ./models ./models/
+COPY ./config/ ./config/
+
+RUN \
+apt-get update && \
+apt-get upgrade -y && \
+apt-get autoremove -y && \
+apt-get clean -y && \
+pip install --upgrade pip && \
+pip install wheel && \
+pip install -r requirements.txt
+
+# Expose the port the app runs on.
+EXPOSE 8080
+
+CMD ["python", "src/api.py"]
+
+
+# To build and run the Docker container, use the following commands:
+# docker build -t api_ac .
+# docker run -p 8080:8080 api_ac

@@ -1,0 +1,22 @@
+name: air-contaminant
+services:
+  streamlit:
+    build:
+      context: .
+      dockerfile: ./docker/streamlit/dockerfile
+    image: indraps30/ac_streamlit
+    container_name: streamlit_frontend
+    # streamlit baru bisa berjalan ketika api sudah berjalan.
+    depends_on:
+      - api
+    ports:
+      - "8501:8501"
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/dockerfile
+    image: indraps30/ac_api
+    container_name: api_backend
+    ports:
+      - "8080:8080"
